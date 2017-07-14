@@ -17,6 +17,37 @@
 import jinja2
 import webapp2
 
+from google.appengine.api import users
+from google.appengine.ext import ndb
+
+env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
+
+
+class SSuser(ndb.Model):
+    first_name = ndb.StringProperty(default="")
+    last_name = ndb.StringProperty(default="")
+    email = ndb.StringProperty(default="")
+    confirm_email = ndb.StringProperty(default="")
+    password = ndb.StringProperty(default="")
+    confirm_password = ndb.StringProperty(default="")
+    birth_month = ndb.StringProperty(default="")
+    birth_day = ndb.StringProperty(default="")
+    image = ndb.StringProperty(default="")
+
+class ListHandler(webapp2.RequestHandler):
+    def get(self):
+        q = SSuser.query(projection=(SSuser.last_name, SSuser.first_name)).order(SSuser.last_name, SSuser.first_name)
+        data = {
+            'Shapeshopper': q.fetch(100),
+            'admin': users.is_current_user_admin(),
+            'user': users.get_current_user(),
+            'login': users.create_login_url(dest_url=self.request.url),
+            'logout': users.create_logout_url(dest_url=self.request.url),
+        }
+        template = env.get_template('friends.html')
+        self.response.out.write(template.render(data))
+
+
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 
 class MainHandler(webapp2.RequestHandler):
@@ -26,4 +57,5 @@ class MainHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
+    ('/login', ListHandler)
 ], debug=True)

@@ -36,9 +36,7 @@ class SSuser(ndb.Model):
 
 class ListHandler(webapp2.RequestHandler):
     def get(self):
-        q = SSuser.query(projection=(SSuser.last_name, SSuser.first_name)).order(SSuser.last_name, SSuser.first_name)
         data = {
-            'Shapeshopper': q.fetch(100),
             'admin': users.is_current_user_admin(),
             'user': users.get_current_user(),
             'login': users.create_login_url(dest_url=self.request.url),
@@ -52,10 +50,24 @@ env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        main_template = env.get_template('main.html')
-        self.response.out.write(main_template.render())
+        main_template = env.get_template('home.html')
+        data = {
+            'admin': users.is_current_user_admin(),
+            'user': users.get_current_user(),
+            'login': users.create_login_url(dest_url=self.request.url),
+            'logout': users.create_logout_url(dest_url=self.request.url),
+        }
+        self.response.out.write(main_template.render(data))
+    def post(self):
+        survey_template = env.get_template('survey.html')
+
+class SurveyHandler(webapp2.RequestHandler):
+    def get(self):
+        survey_template = env.get_template('survey.html')
+        self.response.out.write(survey_template.render())
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
-    ('/login', ListHandler)
+    ('/', MainHandler),
+    ('/login', ListHandler),
+    ('/survey', SurveyHandler)
 ], debug=True)

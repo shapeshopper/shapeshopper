@@ -1,0 +1,10 @@
+<html>
+  <body bgcolor="pink" align="center">
+    <h1>ShapeShopper</h1>
+    {% if user %}
+	     Logged in as {{ user.email() }} <a href="{{ logout }}">Logout</a>
+	  {% else %}
+	     <a href="{{ login }}">Login</a>
+	  {% endif %}
+  </body>
+</html>

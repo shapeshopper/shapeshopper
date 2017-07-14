@@ -30,6 +30,6 @@ class SurveyHandler(webapp2.RequestHandler):
         survey_template = env.get_template('survey.html')
         self.response.out.write(main_template.render())
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
-    ('/', SurveyHandler)
+    ('/', MainHandler
+    '/', SurveyHandler)
 ], debug=True)

@@ -25,7 +25,11 @@ class MainHandler(webapp2.RequestHandler):
         self.response.out.write(main_template.render())
     def post(self):
         survey_template = env.get_template('survey.html')
-        
+class SurveyHandler(webapp2.RequestHandler):
+    def get(self):
+        survey_template = env.get_template('survey.html')
+        self.response.out.write(main_template.render())
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
+    ('/', SurveyHandler)
 ], debug=True)

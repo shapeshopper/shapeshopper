@@ -65,9 +65,13 @@ class SurveyHandler(webapp2.RequestHandler):
     def get(self):
         survey_template = env.get_template('survey.html')
         self.response.out.write(survey_template.render())
-
+class HomepageHandler(webapp2.RequestHandler):
+    def get(self):
+        home_template = env.get_template('home.html')
+        self.response.out.write(home_template.render())
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', ListHandler),
-    ('/survey', SurveyHandler)
+    ('/survey', SurveyHandler),
+    ('/homepage', HomepageHandler)
 ], debug=True)

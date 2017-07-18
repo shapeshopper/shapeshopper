@@ -66,8 +66,33 @@ class SurveyHandler(webapp2.RequestHandler):
         survey_template = env.get_template('survey.html')
         self.response.out.write(survey_template.render())
 
+class HomepageHandler(webapp2.RequestHandler):
+    def get(self):
+        home_template = env.get_template('home.html')
+        self.response.out.write(home_template.render())
+
+class ResultsHandler(webapp2.RequestHandler):
+    def get(self):
+        result_template = env.get_template('results.html')
+        self.response.out.write(result_template.render())
+    def post(self):
+        if height < 64:
+            print('Petite')
+        if height in range(64, 67, 1):
+            print('Average')
+        if height > 66:
+            print('Tall')
+        if topsize < 10:
+            print('Slim')
+        if topsize in range(10,21,1):
+            print('Average')
+        if topsize > 14:
+            print('Plus Size')
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', ListHandler),
-    ('/survey', SurveyHandler)
+    ('/survey', SurveyHandler),
+    ('/homepage', HomepageHandler),
+    ('/results', ResultsHandler)
 ], debug=True)

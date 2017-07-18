@@ -74,20 +74,28 @@ class HomepageHandler(webapp2.RequestHandler):
 class ResultsHandler(webapp2.RequestHandler):
     def get(self):
         result_template = env.get_template('results.html')
-        self.response.out.write(result_template.render())
-    def post(self):
-        if height < 64:
-            print('Petite')
-        if height in range(64, 67, 1):
-            print('Average')
-        if height > 66:
-            print('Tall')
-        if topsize < 10:
-            print('Slim')
-        if topsize in range(10,21,1):
-            print('Average')
-        if topsize > 14:
-            print('Plus Size')
+
+        height = int(self.request.get('height'))
+
+        if height in range (59, 63):
+            height_type = 'short'
+        elif height in range (64, 67):
+            height_type = 'medium'
+        else:
+            height_type = 'tall'
+
+        topsize = int(self.request.get('topsize'))
+
+        if height in range (1, 2):
+            topsize_type = 'small'
+        elif height in range (3, 5):
+            topsize_type = 'medium'
+        else:
+            topsize_type = 'large'
+
+        template_vars = {'height_type':height_type,
+                        'topsize_type':topsize_type}
+        self.response.out.write(result_template.render(template_vars))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),

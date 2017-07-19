@@ -86,15 +86,54 @@ class ResultsHandler(webapp2.RequestHandler):
 
         topsize = int(self.request.get('topsize'))
 
-        if height in range (1, 2):
+        if topsize in range (1, 2):
             topsize_type = 'small'
-        elif height in range (3, 5):
+        elif topsize in range (3, 5):
             topsize_type = 'medium'
         else:
             topsize_type = 'large'
 
+        shape = 'unknown'
+        image = 'unknown'
+
+        if height_type == 'short':
+            if topsize_type == 'small':
+                shape = 'pear'
+                image = 'pear.jpg'
+            if topsize_type == 'medium':
+                shape = 'carrot'
+                image = 'carrot.jpg'
+            if topsize_type == 'large':
+                shape = 'apple'
+                image = 'apple.jpg'
+
+        if height_type == 'medium':
+            if topsize_type == 'small':
+                shape = 'pear'
+                image = 'pear.jpg'
+            if topsize_type == 'medium':
+                shape = 'peanut'
+                image = 'peanut.jpg'
+            if topsize_type == 'large':
+                shape = 'apple'
+                image = 'apple.jpg'
+
+        if height_type == 'tall':
+            if topsize_type == 'small':
+                shape = 'stringbean'
+                image = 'stringbean.jpg'
+            if topsize_type == 'medium':
+                shape = 'carrot'
+                image = 'carrot.jpg'
+            if topsize_type == 'large':
+                shape = 'stringbean'
+                image = 'stringbean.jpg'
+
         template_vars = {'height_type':height_type,
-                        'topsize_type':topsize_type}
+                        'topsize_type':topsize_type,
+                        'shape':shape,
+                        'image':image}
+
         self.response.out.write(result_template.render(template_vars))
 
 app = webapp2.WSGIApplication([

@@ -1,15 +1,16 @@
 <html>
-  <body bgcolor="pink" align="center">
+  <body bgcolor="#61cfec" align="center">
     <form action="/survey">
-    <h1 font="">ShapeShopper</h1>
+    <font color="#ffffff" size="50" face="Verdana"> Shape Shopper</font><br>
     {% if user %}
 	     Logged in as {{ user.email() }} <a href="{{ logout }}">Logout</a>
 	  {% else %}
-	     <a href="{{ login }}">Login</a>
+	   <a href="{{ login }}">Login</a>
 	  {% endif %}
-    <ul>
-    <li><img src="static/Kaleila.jpeg" width="500px" height="500px">
-    </ul>
+    </br>
+    </br>
+    <img src="static/cssi17shapeshopper.png" width="500px" height="500px">
+    </br>
     <p><button value="Get Started" action>Get Started</button></p>
   </form>
   </body>
